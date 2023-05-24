@@ -49,15 +49,15 @@ class ServiceOrderService
             $newServiceOrder['exitDateTime'] = empty($newServiceOrder['exitDateTime']) ? '0001-01-01 00:00:00' : $newServiceOrder['exitDateTime'];
 
             ServiceOrders::create($newServiceOrder);
+            
+            return response()->json([
+                DB::table('service_orders')->latest()->get()->first()
+            ], 201);
         } catch (Throwable $e) {
             return response()->json([
                 'error' => 'Internal error',
                 'message' => $e->getMessage()
             ], 500);
         }
-
-        return response()->json([
-            DB::table('service_orders')->latest()->get()->first()
-        ], 201);
     }
 }
