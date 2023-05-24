@@ -14,18 +14,9 @@ class ServiceOrderController extends Controller
         return $ServiceOrder->findAll($r);
     }
 
-    public function create(ServiceOrderRequest $r)
+    public function create(ServiceOrderRequest $r, ServiceOrderService $ServiceOrder)
     {
 
-        $newServiceOrder = [
-            'vehiclePlate' => $r->vehiclePlate,
-            'entryDateTime' => $r->entryDateTime,
-            'exitDateTime' => $r->exitDateTime,
-            'priceType' => $r->priceType,
-            'price' => $r->price,
-            'user_id' => $r->user_id,
-        ];
-
-        ServiceOrders::create($newServiceOrder);
+        return $ServiceOrder->create($r);
     }
 }

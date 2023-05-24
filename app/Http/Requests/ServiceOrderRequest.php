@@ -24,9 +24,8 @@ class ServiceOrderRequest extends FormRequest
     {
         return [
             'vehiclePlate' => ['required', new Placa()],
-            'entryDateTime' => 'date_format:Y-m-d H:i:s',
+            'entryDateTime' => 'required|date_format:Y-m-d H:i:s',
             'exitDateTime' => 'date_format:Y-m-d H:i:s',
-            'priceType' => 'required',
             'price' => 'decimal:2',
             'user_id' => 'required'
         ];
