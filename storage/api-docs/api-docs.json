@@ -1,0 +1,156 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Jump API",
+        "description": "Desafio Jump API",
+        "contact": {
+            "email": "joaopedroarrais@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/service_orders/": {
+            "get": {
+                "tags": [
+                    "Service Orders"
+                ],
+                "summary": "return Service Orders",
+                "operationId": "getAll",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "limit retrieved records",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "page which you want to navigate to",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unathenticated"
+                    },
+                    "500": {
+                        "description": "Internal Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Service Orders"
+                ],
+                "summary": "create a Service Order record in the database",
+                "operationId": "createServiceOrder",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "vehiclePlate": {
+                                        "type": "string",
+                                        "example": "KXU3255"
+                                    },
+                                    "entryDateTime": {
+                                        "example": "2023-01-01 00:00:00"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "example": "10.27"
+                                    },
+                                    "user_id": {
+                                        "description": "id of the user related with this service order record",
+                                        "type": "number",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "number",
+                                            "example": "1"
+                                        },
+                                        "vehiclePlate": {
+                                            "type": "string",
+                                            "example": "KXU3255"
+                                        },
+                                        "entryDateTime": {
+                                            "example": "2023-01-01 00:00:00"
+                                        },
+                                        "exitDateTime": {
+                                            "example": "0001-01-01 00:00:00"
+                                        },
+                                        "price": {
+                                            "type": "number",
+                                            "example": "10.27"
+                                        },
+                                        "user_id": {
+                                            "description": "id of the user related with this service order record",
+                                            "type": "number",
+                                            "example": "1"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unathenticated"
+                    },
+                    "422": {
+                        "description": "Invalid data"
+                    },
+                    "500": {
+                        "description": "Internal Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        }
+    }
+}
