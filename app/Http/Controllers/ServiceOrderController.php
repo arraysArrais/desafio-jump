@@ -10,6 +10,11 @@ use Illuminate\Http\Request;
 class ServiceOrderController extends Controller
 {
 
+    public function __construct(private ServiceOrderService $serviceOrderService)
+    {
+
+    }
+
     /**
  * @OA\Get(
  *     path="/api/service_orders/",
@@ -58,9 +63,9 @@ class ServiceOrderController extends Controller
  *     )
  * )
  */
-    public function getAll(Request $r, ServiceOrderService $ServiceOrder)
+    public function getAll(Request $r)
     {
-        return $ServiceOrder->findAll($r);
+        return $this->serviceOrderService->findAll($r);
     }
 
 
@@ -109,9 +114,9 @@ class ServiceOrderController extends Controller
      *     ),
      * ),
      */
-    public function create(ServiceOrderRequest $r, ServiceOrderService $ServiceOrder)
+    public function create(ServiceOrderRequest $r)
     {
 
-        return $ServiceOrder->create($r);
+        return $this->serviceOrderService->create($r);
     }
 }
