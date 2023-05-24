@@ -35,3 +35,5 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('/service_orders', [ServiceOrderController::class, 'getAll']);
     Route::post('/service_orders', [ServiceOrderController::class, 'create']);
 });
+
+Route::get('/unauthorizedResponse', [AuthController::class, 'unauthorized'])->name('login');

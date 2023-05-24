@@ -15,13 +15,60 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login', 'unauthorized']]);
     }
 
     /**
      * Get a JWT via given credentials.
      *
      * @return \Illuminate\Http\JsonResponse
+     */
+
+     /**
+     * @OA\Post(
+     *     path="/api/auth/login",
+     *     operationId="login",
+     *     tags={"auth"},
+     *     summary="get access-token",
+     *     description="JWT Token. Required for all requests.",
+     *     @OA\Parameter(
+     *         name="email",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *             example="rafael.haeusler@jumptecnologia.com",
+     *         ),
+     *     ),
+     *     @OA\Parameter(
+     *         name="password",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *             example="JumpTecnologi@1!",
+     *         ),
+     *         
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *         type="object",
+     *          @OA\Property(property="access-token", type="string", example="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."),
+     *          @OA\Property(property="token_type", type="string", example="bearer"),
+     *          @OA\Property(property="expires_in", type="int", example="3600"),
+     *       ),
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Incorrect username or password", 
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error while fetching data in database"
+     *     ),
+     * ),
      */
     public function login()
     {
@@ -81,7 +128,7 @@ class AuthController extends Controller
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60,
-            'user' => auth()->user(),
+            // 'user' => auth()->user(),
         ]);
     }
 
@@ -104,5 +151,12 @@ class AuthController extends Controller
             'token' => $token,
             'msg' => 'Token invalidated'
         ], 200);
+    }
+
+    public function unauthorized()
+    {
+        return response()->json([
+            'error' => 'Unathenticated..'
+        ], 401);
     }
 }

@@ -34,7 +34,16 @@ class ServiceOrderController extends Controller
  *         @OA\Schema(
  *             type="string",
  *         )
- *     ),   
+ *     ),
+ *     @OA\Parameter(
+ *         name="placa",
+ *         in="query",
+ *         description="vehicle plate filter",
+ *         required=false,
+ *         @OA\Schema(
+ *             type="string",
+ *         )
+ *     ),      
  *     @OA\Response(
  *         response=200,
  *         description="Successful operation"

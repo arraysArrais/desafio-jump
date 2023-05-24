@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
         User::Create([
             'name' => 'Rafael Haeusler',
             'email' => 'rafael.haeusler@jumptecnologia.com',
-            'password' => Hash::make('123456'),
+            'password' => Hash::make('JumpTecnologi@1!'),
         ]);
     }
 }

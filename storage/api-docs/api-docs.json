@@ -13,6 +13,68 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/api/auth/login": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "get access-token",
+                "description": "JWT Token. Required for all requests.",
+                "operationId": "login",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "rafael.haeusler@jumptecnologia.com"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "JumpTecnologi@1!"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "access-token": {
+                                            "type": "string",
+                                            "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+                                        },
+                                        "token_type": {
+                                            "type": "string",
+                                            "example": "bearer"
+                                        },
+                                        "expires_in": {
+                                            "type": "integer",
+                                            "example": "3600"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Incorrect username or password"
+                    },
+                    "500": {
+                        "description": "Error while fetching data in database"
+                    }
+                }
+            }
+        },
         "/api/service_orders/": {
             "get": {
                 "tags": [
@@ -34,6 +96,15 @@
                         "name": "page",
                         "in": "query",
                         "description": "page which you want to navigate to",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "placa",
+                        "in": "query",
+                        "description": "vehicle plate filter",
                         "required": false,
                         "schema": {
                             "type": "string"

@@ -15,16 +15,17 @@ class ServiceOrderService
     public function findAll(Request $r)
     {
         try {
-            if ($r->exists('limit')) {
-                if ($r->exists('placa')) {
-                    $result = ServiceOrders::where('vehiclePlate', $r->placa)->paginate($r->limit)->toArray();
-                    return $result['data'];
-                }
-                $result = ServiceOrders::with('user')->paginate($r->limit)->toArray();
+
+            $r->limit = (!$r->exists('limit')) ? 0 : $r->limit;
+
+            if ($r->exists('placa')) {
+                $result = ServiceOrders::where('vehiclePlate', $r->placa)->paginate($r->limit)->toArray();
                 return $result['data'];
-            } else {
-                return ServiceOrders::with('user')->get();
             }
+
+            $result = ServiceOrders::with('user')->paginate($r->limit)->toArray();
+            return $result['data'];
+            
         } catch (Throwable $e) {
             return response()->json([
                 'error' => 'Internal error',
@@ -49,7 +50,7 @@ class ServiceOrderService
             $newServiceOrder['exitDateTime'] = empty($newServiceOrder['exitDateTime']) ? '0001-01-01 00:00:00' : $newServiceOrder['exitDateTime'];
 
             ServiceOrders::create($newServiceOrder);
-            
+
             return response()->json([
                 DB::table('service_orders')->latest()->get()->first()
             ], 201);
